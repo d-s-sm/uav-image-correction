@@ -1,0 +1,13 @@
+package dssm.uavimagecorrection;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class UavImageCorrectionApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(UavImageCorrectionApplication.class, args);
+	}
+
+}
