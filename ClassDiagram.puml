@@ -1,0 +1,89 @@
+@startuml
+
+!function $getStr($array_in_str, $type, $isInterface = %false())
+    !$res = ""
+    !while %size($array_in_str) > 1
+        !$pos = %strpos($array_in_str, ";")
+        !$item = %substr($array_in_str, 0, $pos)
+        !$isName = %strpos($item, ".") == 0
+        !$isDf = %strpos($item, "~") == 0
+        !$isPt = %strpos($item, "#") == 0
+        !$isPb = %strpos($item, "+") == 0
+        !$isMethod = %strpos($item, ")") == %size($item) - 1
+        !$isSet = %false()
+        !if ($isName)
+            !$res = $res + $item + ";"
+        !endif
+        !if ($type == "private")
+            !if ($isInterface)
+                !if ($isMethod)
+                    !$res = $res + $item + ";"
+                !endif
+            !else
+                !$res = $res + $item + ";"
+            !endif
+        !endif
+        !if ($type == "default" && ($isDf || $isPt || $isPb) && %not($isSet))
+            !if ($isInterface)
+                !if ($isMethod)
+                    !$res = $res + $item + ";"
+                !endif
+            !else
+                !$res = $res + $item + ";"
+            !endif
+            !$isSet = %true()
+        !endif
+        !if ($type == "protected" && ($isPt || $isPb) && %not($isSet))
+            !if ($isInterface)
+                !if ($isMethod)
+                    !$res = $res + $item + ";"
+                !endif
+            !else
+                !$res = $res + $item + ";"
+            !endif
+            !$isSet = %true()
+        !endif
+        !if ($type == "public" && $isPb && %not($isSet))
+            !if ($isInterface)
+                !if ($isMethod)
+                    !$res = $res + $item + ";"
+                !endif
+            !else
+                !$res = $res + $item + ";"
+            !endif
+            !$isSet = %true()
+        !endif
+        !$array_in_str = %substr($array_in_str, $pos + 1)
+    !endwhile
+    !return $res
+!endfunction
+
+!procedure $printFor($array_in_str)
+    !while %size($array_in_str) > 1
+        !$pos = %strpos($array_in_str, ";")
+        %substr($array_in_str, 0, $pos)
+        !$array_in_str = %substr($array_in_str, $pos + 1)
+    !endwhile
+!endprocedure
+
+'class Pattern {
+'class Pattern extends  {
+'class Pattern implements  {
+'interface Pattern {
+'interface Pattern extends  {
+'    !$Pattern = ""
+'    !$Pattern = getStr(, "")
+'    !$Pattern = getStr(, "", %true())
+'
+'    !$Pattern = $Pattern + "+ ;"
+'
+'    !$Pattern = $Pattern + "+ ();"
+'
+'    $printFor($Pattern)
+'}
+
+package dssm.uavimagecorrection.service {
+
+}
+
+@enduml
